@@ -52,11 +52,12 @@ public class User {
     }
 
     @Builder
-    public User(String email, String password, String name, String nickName, Integer phoneNumber) {
+    public User(String email, String password, String name, String nickName, Integer phoneNumber, Gender gender) {
         this.email = email;
         this.password = password;
         this.name = name;
         this.nickName = nickName;
         this.phoneNumber = phoneNumber;
+        this.gender = gender;
     }
 }

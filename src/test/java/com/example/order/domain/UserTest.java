@@ -1,5 +1,6 @@
 package com.example.order.domain;
 
+import com.example.order.enums.Gender;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,12 +22,15 @@ class UserTest {
 
         Integer phoneNumber = 0100000000;
 
+        Gender gender = Gender.M;
+
         User user = User.builder()
                 .email(email)
                 .password(password)
                 .name(name)
                 .nickName(nickName)
                 .phoneNumber(phoneNumber)
+                .gender(gender)
                 .build();
 
         Assertions.assertEquals(email, user.getEmail());
@@ -36,6 +40,8 @@ class UserTest {
         Assertions.assertEquals(name, user.getName());
 
         Assertions.assertEquals(nickName, user.getNickName());
+
+        Assertions.assertEquals(gender, user.getGender());
 
         Assertions.assertEquals(phoneNumber, user.getPhoneNumber());
 
