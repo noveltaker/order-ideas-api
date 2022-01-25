@@ -33,7 +33,7 @@ public class User {
     private String nickName;
 
     @Column(nullable = false)
-    private Integer phoneNumber;
+    private String phoneNumber;
 
     @Column()
     private Gender gender;
@@ -52,7 +52,7 @@ public class User {
     }
 
     @Builder
-    public User(String email, String password, String name, String nickName, Integer phoneNumber, Gender gender) {
+    public User(String email, String password, String name, String nickName, String phoneNumber, Gender gender) {
         this.email = email;
         this.password = password;
         this.name = name;
