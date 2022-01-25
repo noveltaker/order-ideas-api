@@ -35,7 +35,8 @@ public class User {
     @Column(nullable = false)
     private String phoneNumber;
 
-    @Column()
+    @Enumerated(EnumType.STRING)
+    @Column
     private Gender gender;
 
     @Override
