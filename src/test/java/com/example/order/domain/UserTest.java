@@ -20,7 +20,7 @@ class UserTest {
 
         String nickName = "tester";
 
-        Integer phoneNumber = 0100000000;
+        String phoneNumber = "0100000000";
 
         Gender gender = Gender.M;
 
