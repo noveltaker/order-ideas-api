@@ -10,6 +10,7 @@ spring:
     properties:
       hibernate.format_sql: true
       hibernate.jdbc.lob.non_contextual_creation: true
+      hibernate.jdbc.time_zone: UTC
     show-sql: true
     open-in-view: true
   datasource:
