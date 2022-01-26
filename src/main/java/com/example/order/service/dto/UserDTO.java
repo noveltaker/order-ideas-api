@@ -2,6 +2,7 @@ package com.example.order.service.dto;
 
 import com.example.order.domain.User;
 import com.example.order.enums.Gender;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Getter
+@EqualsAndHashCode
 @NoArgsConstructor
 public class UserDTO {
 
@@ -27,20 +29,18 @@ public class UserDTO {
     private String password;
 
     @Pattern(
-            message = "한글, 영문 대소문자만 가능합니다.",
-            regexp = "[A-Z|a-z|ㄱ-ㅎ|가-힣]"
+            regexp = "[A-Z|a-z|ㄱ-ㅎ|가-힣]{0,20}",
+            message = "한글, 영문 대소문자만 가능합니다."
     )
     private String name;
 
-    @Pattern(
-            message = "영문소문자만 가능합니다.",
-            regexp = "[a-z]"
-    )
+    @Pattern(regexp = "^[a-z]{0,30}$",
+            message = "영문소문자만 가능합니다.")
     private String nickName;
 
     @Pattern(
             message = "숫자만 가능합니다.",
-            regexp = "[0-9]"
+            regexp = "[0-9]{0,20}"
     )
     private String phoneNumber;
 
