@@ -2,6 +2,7 @@ package com.example.order.service;
 
 import com.example.order.domain.User;
 import com.example.order.enums.Gender;
+import com.example.order.repository.UserRepository;
 import com.example.order.service.dto.UserDTO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -14,6 +15,9 @@ class UserServiceTest {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Test
     @DisplayName("유저 회원 가입 테스트 케이스")
@@ -42,7 +46,11 @@ class UserServiceTest {
 
         User entity = userService.joinUser(userDTO);
 
-        Assertions.assertNotNull(entity.getId());
+        // then
+        User dbUser = userRepository.findById(entity.getId()).orElseThrow();
+
+        Assertions.assertEquals(entity.getEmail(), dbUser.getEmail());
+
     }
 
 
@@ -105,6 +113,4 @@ class UserServiceTest {
 
         Assertions.assertNotNull(entity.getId());
     }
-
-
 }
