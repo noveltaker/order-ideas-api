@@ -70,4 +70,28 @@ class OrderRepositoryTest {
 
     }
 
+    @Test
+    @DisplayName("이모자 저장 테스트")
+    void save_이모지테스트() throws Exception{
+
+        String EMORJI_NAME = "👺 이모지입니다.";
+
+        Order entity = Order.builder().user(user).name(EMORJI_NAME).build();
+
+        orderRepository.save(entity);
+
+        // 유저 테스트
+        Assertions.assertEquals(user, entity.getUser());
+
+        // 이름 체크
+        Assertions.assertEquals(entity.getName(), entity.getName());
+
+        // not null 테스트
+        Assertions.assertNotNull(entity.getNumber());
+
+        // not null 테스트
+        Assertions.assertNotNull(entity.getOrderDate());
+
+    }
+
 }
