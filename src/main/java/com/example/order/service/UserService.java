@@ -20,6 +20,10 @@ public class UserService {
         return entity;
     }
 
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public User getUser(Long id) {
+        return userRepository.findById(id).orElseThrow();
+    }
 }
 
 
