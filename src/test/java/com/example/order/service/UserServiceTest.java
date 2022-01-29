@@ -8,18 +8,25 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.Optional;
 
-@SpringBootTest
+import static org.mockito.ArgumentMatchers.any;
+
+@ExtendWith(MockitoExtension.class)
 class UserServiceTest {
 
-    @Autowired
+    @InjectMocks
     private UserService userService;
 
-    @Autowired
+    @Mock
     private UserRepository userRepository;
 
     private Long DEFAULT_ID = 0L;
@@ -36,27 +43,13 @@ class UserServiceTest {
 
     private final Gender DEFAULT_GENDER = Gender.M;
 
-    private User entity;
-
     @BeforeEach
     void init() {
-
-        entity = User.builder()
-                .email(DEFAULT_EMAIL)
-                .password(DEFAULT_PASSWORD)
-                .name(DEFAULT_NAME)
-                .nickName(DEFAULT_NICKNAME)
-                .phoneNumber(DEFAULT_PHONE_NUMBER)
-                .gender(DEFAULT_GENDER)
-                .build();
-
-        userRepository.save(entity);
-
-        DEFAULT_ID = entity.getId();
-
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test()
+    @Transactional
     @DisplayName("유저 회원 가입 테스트 케이스")
     void joinUser() throws Exception {
 
@@ -69,21 +62,19 @@ class UserServiceTest {
                 DEFAULT_GENDER
         );
 
-        User entity = userService.joinUser(userDTO);
+        User user = userDTO.toEntity();
 
-        List<User> userList = userRepository.findAll();
+        Mockito.lenient().when(userRepository.save(any(User.class))).thenReturn(user);
 
-        User foundUser = userList.stream().filter(user -> user.getId() == entity.getId())
-                .findFirst()
-                .orElseThrow();
+        User result = userService.joinUser(userDTO);
 
-        Assertions.assertEquals(entity.getEmail(), foundUser.getEmail());
+        Assertions.assertEquals(result.getEmail(), user.getEmail());
+
     }
 
-
     @Test
-    @DisplayName("유저 회원 가입 테스트 케이스 - 성별이 null 일때")
-    void joinUserGenderNull() throws Exception {
+    @DisplayName("단일 회원 상세 정보 조회 기능")
+    void getUser() throws Exception {
 
         UserDTO userDTO = new UserDTO(
                 DEFAULT_EMAIL,
@@ -94,49 +85,9 @@ class UserServiceTest {
                 DEFAULT_GENDER
         );
 
-        User entity = userService.joinUser(userDTO);
+        Mockito.lenient().when(userRepository.findById(1L))
+                .thenReturn(Optional.ofNullable(userDTO.toEntity()));
 
-        List<User> userList = userRepository.findAll();
-
-        User foundUser = userList.stream().filter(user -> user.getId() == entity.getId())
-                .findFirst()
-                .orElseThrow();
-
-        Assertions.assertNotNull(entity.getId());
-
-        Assertions.assertEquals(entity.getEmail(), foundUser.getEmail());
+//        User user = userService.getUser(1L);
     }
-
-    @Test
-    @DisplayName("유저 회원 가입 테스트 케이스 - phone number 에 - 들어갈때")
-    void joinUserPhoneNum() throws Exception {
-
-        UserDTO userDTO = new UserDTO(
-                DEFAULT_EMAIL,
-                DEFAULT_PASSWORD,
-                DEFAULT_NAME,
-                DEFAULT_NICKNAME,
-                DEFAULT_PHONE_NUMBER,
-                DEFAULT_GENDER
-        );
-
-        User entity = userService.joinUser(userDTO);
-
-        List<User> userList = userRepository.findAll();
-
-        User foundUser = userList.stream().filter(user -> user.getId() == entity.getId())
-                .findFirst()
-                .orElseThrow();
-
-        Assertions.assertNotNull(entity.getId());
-
-        Assertions.assertEquals(entity.getEmail(), foundUser.getEmail());
-    }
-
-//    @Test
-//    @DisplayName("단일 회원 상세  정보 조회 기능")
-//    void getUser() throws Exception {
-//        User user = userService.getUser(DEFAULT_ID);
-//        Assertions.assertEquals(user, entity);
-//    }
 }
