@@ -4,6 +4,7 @@ plugins {
     id 'java'
     id 'org.springframework.experimental.aot' version '0.11.1'
     id 'org.hibernate.orm'
+    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
 }
 
 group = 'com.example'
@@ -32,8 +33,28 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
+    implementation 'com.querydsl:querydsl-jpa'
 }
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+def querydslDir = "$buildDir/generated/querydsl"
+
+querydsl {
+    jpa = true
+    querydslSourcesDir = querydslDir
+}
+
+sourceSets {
+    main.java.srcDir querydslDir
+}
+
+configurations {
+    querydsl.extendsFrom compileClasspath
+}
+
+compileQuerydsl {
+    options.annotationProcessorPath = configurations.querydsl
 }
