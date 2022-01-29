@@ -1,24 +1,23 @@
 package com.example.order.utils;
 
-import org.apache.commons.lang3.RandomStringUtils;
+import java.util.Random;
 
 public class RandomUtils {
 
     public static String getRandomValue() {
-        StringBuilder randomBuilder = new StringBuilder();
+        int leftLimit = 48;
+        int rightLimit = 90;
 
-        int length = 10;
+        int targetStringLength = 12;
 
-        boolean useLetters = true;
+        Random random = new Random();
 
-        boolean useNumbers = false;
+        String generatedString = random.ints(leftLimit, rightLimit + 1)
+                .filter(num -> (num <= 57 || num >= 65))
+                .limit(targetStringLength)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
 
-        int randomNum = (int) (Math.random() * 10000);
-
-        String generatedString = RandomStringUtils.random(length, useLetters, useNumbers);
-
-        randomBuilder.append(generatedString).append(randomNum);
-
-        return randomBuilder.toString();
+        return generatedString;
     }
 }
