@@ -78,7 +78,7 @@ class OrderRepositoryTest {
 
         Order entity = Order.builder().user(user).name(EMORJI_NAME).build();
 
-        orderRepository.save(entity);
+        orderRepository.saveAndFlush(entity);
 
         // 유저 테스트
         Assertions.assertEquals(user, entity.getUser());
