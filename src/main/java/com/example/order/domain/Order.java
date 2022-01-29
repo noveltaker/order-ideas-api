@@ -16,7 +16,7 @@ import java.util.Objects;
 public class Order {
 
     @Id
-    @Column(name = "order_number", nullable = false , unique = true)
+    @Column(name = "order_number", nullable = false , unique = true , length = 12)
     private String number;
 
     @Column(nullable = false)
