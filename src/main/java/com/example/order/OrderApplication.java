@@ -9,13 +9,12 @@ import java.util.TimeZone;
 @SpringBootApplication
 public class OrderApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(OrderApplication.class, args);
-    }
+  public static void main(String[] args) {
+    SpringApplication.run(OrderApplication.class, args);
+  }
 
-    @PostConstruct
-    void started() {
-        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
-    }
-
+  @PostConstruct
+  void started() {
+    TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+  }
 }

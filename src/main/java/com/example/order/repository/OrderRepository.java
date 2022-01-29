@@ -10,7 +10,6 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, String> {
 
-    @EntityGraph(attributePaths = {"user"})
-    List<Order> findByUser_Id(Long userId);
-
+  @EntityGraph(attributePaths = {"user"})
+  List<Order> findByUser_Id(Long userId);
 }

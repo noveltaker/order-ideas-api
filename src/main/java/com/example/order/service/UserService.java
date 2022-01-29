@@ -12,19 +12,17 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UserService {
 
-    private final UserRepository userRepository;
+  private final UserRepository userRepository;
 
-    @Transactional(rollbackFor = Exception.class)
-    public User joinUser(UserDTO dto) {
-        User entity = dto.toEntity();
-        userRepository.save(entity);
-        return entity;
-    }
+  @Transactional(rollbackFor = Exception.class)
+  public User joinUser(UserDTO dto) {
+    User entity = dto.toEntity();
+    userRepository.save(entity);
+    return entity;
+  }
 
-    @Transactional(readOnly = true, rollbackFor = Exception.class)
-    public IUser getUser(Long id) {
-        return userRepository.findById(id, IUser.class).orElseThrow();
-    }
+  @Transactional(readOnly = true, rollbackFor = Exception.class)
+  public IUser getUser(Long id) {
+    return userRepository.findById(id, IUser.class).orElseThrow();
+  }
 }
-
-

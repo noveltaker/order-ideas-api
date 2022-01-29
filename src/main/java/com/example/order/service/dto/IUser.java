@@ -4,18 +4,17 @@ import com.example.order.enums.Gender;
 
 public interface IUser {
 
-    Long getId();
+  Long getId();
 
-    String getEmail();
+  String getEmail();
 
-    String getPassword();
+  String getPassword();
 
-    String getName();
+  String getName();
 
-    String getNickName();
+  String getNickName();
 
-    String getPhoneNumber();
+  String getPhoneNumber();
 
-    Gender getGender();
-
+  Gender getGender();
 }

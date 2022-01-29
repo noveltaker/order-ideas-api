@@ -1,7 +1,10 @@
 package com.example.order.domain;
 
 import com.example.order.utils.RandomUtils;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.BatchSize;
 
