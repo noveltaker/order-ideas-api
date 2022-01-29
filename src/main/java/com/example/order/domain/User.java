@@ -6,9 +6,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Table
 @Getter
@@ -35,9 +39,15 @@ public class User {
   @Column(nullable = false)
   private String phoneNumber;
 
-  @Enumerated(EnumType.STRING)
   @Column
+  @Enumerated(EnumType.STRING)
   private Gender gender;
+
+//  @BatchSize(size = 30)
+  @OneToMany(
+      fetch = FetchType.LAZY,
+      cascade = {CascadeType.REMOVE})
+  private Set<Order> orderSet = new HashSet<>();
 
   @Override
   public boolean equals(Object o) {

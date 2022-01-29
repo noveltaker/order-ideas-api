@@ -11,6 +11,8 @@ spring:
       hibernate.format_sql: true
       hibernate.jdbc.lob.non_contextual_creation: true
       hibernate.jdbc.time_zone: UTC
+      hibernate.query.fail_on_pagination_over_collection_fetch: true
+      hibernate.generate_statistics: true
     show-sql: true
     open-in-view: true
   datasource:
