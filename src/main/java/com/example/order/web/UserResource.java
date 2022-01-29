@@ -5,8 +5,10 @@ import com.example.order.domain.User;
 import com.example.order.service.OrderService;
 import com.example.order.service.UserService;
 import com.example.order.service.dto.IUser;
+import com.example.order.service.dto.PageDTO;
 import com.example.order.service.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -34,5 +36,10 @@ public class UserResource {
   @GetMapping("/user/{userId}/orders")
   public List<Order> showOrderListByUser(@PathVariable Long userId) {
     return orderService.getOrderListByUser(userId);
+  }
+
+  @GetMapping("/users")
+  public Page<User> showUsers(PageDTO dto) {
+    return userService.getUserList(dto);
   }
 }
