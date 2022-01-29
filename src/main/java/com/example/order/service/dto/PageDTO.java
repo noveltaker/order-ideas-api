@@ -1,5 +1,6 @@
 package com.example.order.service.dto;
 
+import com.example.order.enums.SearchType;
 import lombok.*;
 
 @Setter
@@ -12,13 +13,9 @@ public class PageDTO {
 
   private Integer size;
 
-  private String searchString;
+  private String searchValue;
 
-  public PageDTO(Integer page, Integer size, String searchString) {
-    this.page = page;
-    this.size = size;
-    this.searchString = searchString;
-  }
+  private SearchType searchType;
 
   public Integer getPage() {
     if (null == this.page) return 0;
@@ -30,7 +27,8 @@ public class PageDTO {
     return size;
   }
 
-  public boolean isNotEmptySearch() {
-    return null != this.searchString;
+  public SearchType getSearchType() {
+    if (null == this.searchType) return SearchType.NONE;
+    return this.searchType;
   }
 }

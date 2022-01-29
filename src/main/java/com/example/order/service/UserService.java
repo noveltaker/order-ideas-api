@@ -31,11 +31,19 @@ public class UserService {
 
   @Transactional(readOnly = true, rollbackFor = Exception.class)
   public Page<User> getUserList(PageDTO dto) {
+
     PageRequest pageRequest = PageRequest.of(dto.getPage(), dto.getSize());
-    if (dto.isNotEmptySearch()) {
-      return userRepository.findAllByEmailContainingOrNameContaining(
-          pageRequest, dto.getSearchString(), dto.getSearchString());
+
+    switch (dto.getSearchType()) {
+      case EMAIL:
+        return userRepository.findAllByEmailContaining(pageRequest, dto.getSearchValue());
+      case NAME:
+        return userRepository.findAllByNameContaining(pageRequest, dto.getSearchValue());
+      case EMAIL_NAME:
+        return userRepository.findAllByNameContainingOrEmailContaining(
+            pageRequest, dto.getSearchValue(), dto.getSearchValue());
+      default:
+        return userRepository.findAll(pageRequest);
     }
-    return userRepository.findAll(pageRequest);
   }
 }
