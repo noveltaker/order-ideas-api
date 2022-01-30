@@ -4,6 +4,7 @@ import com.example.order.domain.Order;
 import com.example.order.domain.User;
 import com.example.order.service.OrderService;
 import com.example.order.service.UserService;
+import com.example.order.service.dto.IPageUser;
 import com.example.order.service.dto.IUser;
 import com.example.order.service.dto.PageDTO;
 import com.example.order.service.dto.UserDTO;
@@ -39,7 +40,7 @@ public class UserResource {
   }
 
   @GetMapping("/users")
-  public Page<User> showUsers(PageDTO dto) {
+  public Page<IPageUser> showUsers(PageDTO dto) {
     return userService.getUserList(dto);
   }
 }

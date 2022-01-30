@@ -1,16 +1,16 @@
 package com.example.order.domain;
 
 import com.example.order.enums.Gender;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Table
 @Getter
@@ -41,11 +41,15 @@ public class User {
   @Enumerated(EnumType.STRING)
   private Gender gender;
 
-  //  @BatchSize(size = 30)
+  @JsonIgnore
+  @BatchSize(size = 100)
   @OneToMany(
-      fetch = FetchType.LAZY,
+      targetEntity = Order.class,
+      fetch = FetchType.EAGER,
       cascade = {CascadeType.REMOVE})
-  private Set<Order> orderSet = new HashSet<>();
+  @JoinColumn(name = "user_id")
+  @OrderBy(value = "orderDate desc ")
+  private List<Order> orderList = new ArrayList<>();
 
   @Override
   public boolean equals(Object o) {
@@ -75,5 +79,4 @@ public class User {
     this.phoneNumber = phoneNumber;
     this.gender = gender;
   }
-
 }

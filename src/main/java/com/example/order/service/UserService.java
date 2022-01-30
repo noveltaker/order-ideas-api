@@ -2,6 +2,7 @@ package com.example.order.service;
 
 import com.example.order.domain.User;
 import com.example.order.repository.UserRepository;
+import com.example.order.service.dto.IPageUser;
 import com.example.order.service.dto.IUser;
 import com.example.order.service.dto.PageDTO;
 import com.example.order.service.dto.UserDTO;
@@ -30,20 +31,22 @@ public class UserService {
   }
 
   @Transactional(readOnly = true, rollbackFor = Exception.class)
-  public Page<User> getUserList(PageDTO dto) {
+  public Page<IPageUser> getUserList(PageDTO dto) {
 
     PageRequest pageRequest = PageRequest.of(dto.getPage(), dto.getSize());
 
     switch (dto.getSearchType()) {
       case EMAIL:
-        return userRepository.findAllByEmailContaining(pageRequest, dto.getSearchValue());
+        return userRepository.findAllByEmailContaining(
+            pageRequest, dto.getSearchValue(), IPageUser.class);
       case NAME:
-        return userRepository.findAllByNameContaining(pageRequest, dto.getSearchValue());
+        return userRepository.findAllByNameContaining(
+            pageRequest, dto.getSearchValue(), IPageUser.class);
       case EMAIL_NAME:
         return userRepository.findAllByNameContainingOrEmailContaining(
-            pageRequest, dto.getSearchValue(), dto.getSearchValue());
+            pageRequest, dto.getSearchValue(), dto.getSearchValue(), IPageUser.class);
       default:
-        return userRepository.findAll(pageRequest);
+        return userRepository.findAllProjectedBy(pageRequest, IPageUser.class);
     }
   }
 }
