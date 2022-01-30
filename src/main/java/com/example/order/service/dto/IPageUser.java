@@ -22,7 +22,7 @@ public interface IPageUser {
   Gender getGender();
 
   @Value("#{target.orderList.size() > 0 ? target.orderList.get(0) : null }")
-  ITopOrder getOrder();
+  ITopOrder getLastOrder();
 
   interface ITopOrder {
     String getNumber();
