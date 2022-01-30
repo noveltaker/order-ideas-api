@@ -6,11 +6,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.Hibernate;
-import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -43,7 +41,7 @@ public class User {
   @Enumerated(EnumType.STRING)
   private Gender gender;
 
-//  @BatchSize(size = 30)
+  //  @BatchSize(size = 30)
   @OneToMany(
       fetch = FetchType.LAZY,
       cascade = {CascadeType.REMOVE})
@@ -77,4 +75,5 @@ public class User {
     this.phoneNumber = phoneNumber;
     this.gender = gender;
   }
+
 }
