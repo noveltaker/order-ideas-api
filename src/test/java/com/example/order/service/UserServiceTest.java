@@ -54,6 +54,7 @@ class UserServiceTest {
     @DisplayName("유저 회원 가입 테스트 케이스")
     void joinUser() throws Exception {
 
+      // given
       UserDTO userDTO =
           new UserDTO(
               DEFAULT_EMAIL,
@@ -67,8 +68,10 @@ class UserServiceTest {
 
       Mockito.lenient().when(userRepository.save(any(User.class))).thenReturn(user);
 
+      // when
       User serviceUser = userService.joinUser(userDTO);
 
+      // then
       Assertions.assertEquals(serviceUser.getEmail(), user.getEmail());
     }
 
@@ -97,6 +100,22 @@ class UserServiceTest {
   @Nested
   @DisplayName("조회 관련 테스트 케이스")
   class Select {
+
+    @BeforeEach
+    void init() {
+
+      User user =
+          new UserDTO(
+                  DEFAULT_EMAIL,
+                  DEFAULT_PASSWORD,
+                  DEFAULT_NAME,
+                  DEFAULT_NICKNAME,
+                  DEFAULT_PHONE_NUMBER,
+                  DEFAULT_GENDER)
+              .toEntity();
+
+      userRepository.save(user);
+    }
 
     @Test
     @DisplayName("단일 회원 상세 정보 조회 기능")
