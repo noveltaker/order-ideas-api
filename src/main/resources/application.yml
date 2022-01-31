@@ -34,3 +34,6 @@ logging:
   level:
     org:
       hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+jwt:
+  key: testtestestest

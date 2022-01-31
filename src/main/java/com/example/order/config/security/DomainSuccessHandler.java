@@ -1,0 +1,56 @@
+package com.example.order.config.security;
+
+import com.example.order.service.dto.MessageDTO;
+import com.example.order.utils.JsonUtils;
+import com.example.order.utils.JwtUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.stereotype.Component;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.List;
+
+@Component("authenticationSuccessHandler")
+public class DomainSuccessHandler implements AuthenticationSuccessHandler {
+
+  @Value("${jwt.key}")
+  private String jwtKey;
+
+  @Override
+  public void onAuthenticationSuccess(
+      HttpServletRequest request, HttpServletResponse response, Authentication authentication)
+      throws IOException, ServletException {
+
+    DomainUser user = (DomainUser) authentication.getPrincipal();
+
+    Long id = user.getId();
+
+    String email = user.getUsername();
+
+    String name = user.getName();
+
+    List<String> authorities = user.getAuthoritiesToStringList();
+
+    String accessToken =
+        SecurityConstants.TOKEN_PREFIX
+            + JwtUtils.createAccessToken(jwtKey, id, email, name, authorities);
+
+    String refreshToken = JwtUtils.createRefreshToken(jwtKey, id, email, name, authorities);
+
+    MessageDTO.Login loginMessage =
+        MessageDTO.Login.builder().accessToken(accessToken).refreshToken(refreshToken).build();
+
+    response.reset();
+
+    response.setStatus(HttpStatus.OK.value());
+
+    response.setContentType("application/json");
+
+    response.getWriter().write(JsonUtils.convertObjectToJson(loginMessage));
+  }
+}

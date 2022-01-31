@@ -38,6 +38,10 @@ dependencies {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
     implementation "io.springfox:springfox-boot-starter:${swaggerVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-security"
+    implementation "org.springframework.security:spring-security-jwt:1.1.1.RELEASE"
+    implementation "com.auth0:jwks-rsa:0.3.0"
+    implementation "io.jsonwebtoken:jjwt:0.9.1"
 }
 
 tasks.named('test') {
