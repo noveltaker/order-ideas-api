@@ -1,7 +1,6 @@
 package com.example.order.config;
 
 import com.example.order.config.security.CorsFilter;
-import com.example.order.config.security.JwtLoginFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,7 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -31,7 +29,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .cors()
         .disable()
         .addFilterBefore(new CorsFilter(), ChannelProcessingFilter.class)
-        //        .addFilterBefore(jwtLoginFilter(), UsernamePasswordAuthenticationFilter.class);
         .formLogin()
         .loginProcessingUrl("/login")
         .usernameParameter("email")
@@ -43,9 +40,5 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   @Bean
   public PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
-  }
-
-  public JwtLoginFilter jwtLoginFilter() {
-    return new JwtLoginFilter("/login", authenticationSuccessHandler, authenticationFailureHandler);
   }
 }
