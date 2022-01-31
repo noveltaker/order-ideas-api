@@ -1,6 +1,7 @@
 buildscript {
     ext {
         queryDslVersion = "5.0.0"
+        swaggerVersion = "3.0.0"
     }
 }
 
@@ -36,6 +37,7 @@ dependencies {
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
+    implementation "io.springfox:springfox-boot-starter:${swaggerVersion}"
 }
 
 tasks.named('test') {
