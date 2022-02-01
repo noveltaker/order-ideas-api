@@ -21,11 +21,11 @@ public class RefreshToken {
   private Long userId;
 
   @Column(nullable = false)
-  private String refrehToken;
+  private String refreshToken;
 
   @Builder
-  public RefreshToken(Long userId, String refrehToken) {
+  public RefreshToken(Long userId, String refreshToken) {
     this.userId = userId;
-    this.refrehToken = refrehToken;
+    this.refreshToken = refreshToken;
   }
 }
