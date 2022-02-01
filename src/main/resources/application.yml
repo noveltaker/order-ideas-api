@@ -37,5 +37,9 @@ logging:
     org:
       hibernate.type.descriptor.sql.BasicBinder: TRACE
 
+jasypt:
+  encryptor:
+    password: order112!!
+
 jwt:
-  key: testtestestest
+  key: ENC(xxOAUVk4nQdy+sWgp+I+SLO8dTwOffG6TaHZVbajYo9WGU/xfH2ylw==)
