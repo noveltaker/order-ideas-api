@@ -1,17 +1,20 @@
 package com.example.order.config;
 
 import com.example.order.config.security.CorsFilter;
+import com.example.order.config.security.JwtLoginFilter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Bean; import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -30,15 +33,29 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .disable()
         .addFilterBefore(new CorsFilter(), ChannelProcessingFilter.class)
         .formLogin()
-        .loginProcessingUrl("/login")
-        .usernameParameter("email")
-        .passwordParameter("password")
-        .successHandler(authenticationSuccessHandler)
-        .failureHandler(authenticationFailureHandler);
+        .disable()
+        .sessionManagement()
+        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .and()
+        .addFilterBefore(jwtLoginFilter(), UsernamePasswordAuthenticationFilter.class);
   }
 
   @Bean
   public PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
+  }
+
+  private JwtLoginFilter jwtLoginFilter() throws Exception {
+    return new JwtLoginFilter(
+        "/login",
+        authenticationManagerBean(),
+        authenticationSuccessHandler,
+        authenticationFailureHandler);
+  }
+
+  @Bean
+  @Override
+  public AuthenticationManager authenticationManagerBean() throws Exception {
+    return super.authenticationManagerBean();
   }
 }

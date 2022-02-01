@@ -1,8 +1,11 @@
 package com.example.order.config.security;
 
+import com.example.order.domain.RefreshToken;
+import com.example.order.repository.RefreshTokenRepository;
 import com.example.order.service.dto.MessageDTO;
 import com.example.order.utils.JsonUtils;
 import com.example.order.utils.JwtUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -16,10 +19,13 @@ import java.io.IOException;
 import java.util.List;
 
 @Component("authenticationSuccessHandler")
+@RequiredArgsConstructor
 public class DomainSuccessHandler implements AuthenticationSuccessHandler {
 
   @Value("${jwt.key}")
   private String jwtKey;
+
+  private final RefreshTokenRepository refreshTokenRepository;
 
   @Override
   public void onAuthenticationSuccess(
@@ -44,6 +50,9 @@ public class DomainSuccessHandler implements AuthenticationSuccessHandler {
 
     MessageDTO.Login loginMessage =
         MessageDTO.Login.builder().accessToken(accessToken).refreshToken(refreshToken).build();
+
+    refreshTokenRepository.save(
+        RefreshToken.builder().userId(id).refrehToken(refreshToken).build());
 
     response.reset();
 
