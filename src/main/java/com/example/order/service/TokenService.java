@@ -60,4 +60,9 @@ public class TokenService {
 
     return MessageDTO.Login.builder().accessToken(accessToken).refreshToken(refreshToken).build();
   }
+
+  @Transactional(rollbackFor = Exception.class)
+  public void removeToken(Long userId) {
+    refreshTokenRepository.deleteById(userId);
+  }
 }

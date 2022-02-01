@@ -4,7 +4,6 @@ import com.example.order.domain.RefreshToken;
 import com.example.order.repository.RefreshTokenRepository;
 import com.example.order.service.dto.MessageDTO;
 import com.example.order.utils.HttpUtils;
-import com.example.order.utils.JsonUtils;
 import com.example.order.utils.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
