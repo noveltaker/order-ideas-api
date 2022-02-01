@@ -3,6 +3,7 @@ package com.example.order.web;
 import com.example.order.service.TokenService;
 import com.example.order.service.dto.MessageDTO;
 import com.example.order.service.dto.TokenDTO;
+import com.example.order.web.docs.TokenResourceDocs;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/token")
 @RequiredArgsConstructor
-public class TokenResource {
+public class TokenResource implements TokenResourceDocs {
 
   private final TokenService tokenService;
 

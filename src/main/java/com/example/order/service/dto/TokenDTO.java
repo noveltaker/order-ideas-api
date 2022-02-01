@@ -1,5 +1,6 @@
 package com.example.order.service.dto;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +12,11 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode
 public class TokenDTO {
 
-  @NotNull private Long userId;
+  @NotNull
+  @ApiModelProperty(value = "유저 아이디")
+  private Long userId;
 
-  @NotNull private String refreshToken;
+  @NotNull
+  @ApiModelProperty(value = "리플래쉬 토큰")
+  private String refreshToken;
 }

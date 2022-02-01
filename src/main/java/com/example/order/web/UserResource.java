@@ -8,6 +8,7 @@ import com.example.order.service.dto.IPageUser;
 import com.example.order.service.dto.IUser;
 import com.example.order.service.dto.PageDTO;
 import com.example.order.service.dto.UserDTO;
+import com.example.order.web.docs.UserResourceDocs;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
-public class UserResource {
+public class UserResource implements UserResourceDocs {
 
   private final UserService userService;
 
