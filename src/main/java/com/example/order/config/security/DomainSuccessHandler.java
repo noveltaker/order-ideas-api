@@ -3,6 +3,7 @@ package com.example.order.config.security;
 import com.example.order.domain.RefreshToken;
 import com.example.order.repository.RefreshTokenRepository;
 import com.example.order.service.dto.MessageDTO;
+import com.example.order.utils.HttpUtils;
 import com.example.order.utils.JsonUtils;
 import com.example.order.utils.JwtUtils;
 import lombok.RequiredArgsConstructor;
@@ -42,9 +43,7 @@ public class DomainSuccessHandler implements AuthenticationSuccessHandler {
 
     List<String> authorities = user.getAuthoritiesToStringList();
 
-    String accessToken =
-        SecurityConstants.TOKEN_PREFIX
-            + JwtUtils.createAccessToken(jwtKey, id, email, name, authorities);
+    String accessToken = JwtUtils.createAccessToken(jwtKey, id, email, name, authorities);
 
     String refreshToken = JwtUtils.createRefreshToken(jwtKey, id, email, name, authorities);
 
@@ -54,12 +53,6 @@ public class DomainSuccessHandler implements AuthenticationSuccessHandler {
     refreshTokenRepository.save(
         RefreshToken.builder().userId(id).refreshToken(refreshToken).build());
 
-    response.reset();
-
-    response.setStatus(HttpStatus.OK.value());
-
-    response.setContentType("application/json");
-
-    response.getWriter().write(JsonUtils.convertObjectToJson(loginMessage));
+    HttpUtils.createMessage(HttpStatus.OK, response, loginMessage);
   }
 }

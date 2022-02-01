@@ -11,8 +11,6 @@ public interface IPageUser {
 
   String getEmail();
 
-  String getPassword();
-
   String getName();
 
   String getNickName();

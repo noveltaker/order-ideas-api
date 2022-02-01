@@ -1,9 +1,11 @@
 package com.example.order.service;
 
 import com.example.order.config.security.DomainUser;
+import com.example.order.config.security.GlobalException;
 import com.example.order.config.security.SecurityConstants;
 import com.example.order.domain.RefreshToken;
 import com.example.order.domain.User;
+import com.example.order.enums.ErrorType;
 import com.example.order.repository.RefreshTokenRepository;
 import com.example.order.repository.UserRepository;
 import com.example.order.service.dto.MessageDTO;
@@ -30,11 +32,13 @@ public class TokenService {
 
     Long userId = dto.getUserId();
 
-    RefreshToken tokenData = refreshTokenRepository.findById(userId).orElseThrow();
+    RefreshToken tokenData =
+        refreshTokenRepository
+            .findById(userId)
+            .orElseThrow(() -> new GlobalException(ErrorType.EMPTY_TOKEN_DOMAIN));
 
     if (!tokenData.equals(dto.getRefreshToken())) {
-      // todo : exception
-      throw new NullPointerException();
+      throw new GlobalException(ErrorType.NOT_MATCH_TOKEN);
     }
 
     User foundUser = userRepository.findById(dto.getUserId()).orElseThrow();
@@ -48,9 +52,7 @@ public class TokenService {
     String name = user.getName();
 
     String accessToken =
-        SecurityConstants.TOKEN_PREFIX
-            + JwtUtils.createAccessToken(
-                jwtKey, id, email, name, user.getAuthoritiesToStringList());
+        JwtUtils.createAccessToken(jwtKey, id, email, name, user.getAuthoritiesToStringList());
 
     String refreshToken =
         JwtUtils.createRefreshToken(jwtKey, id, email, name, user.getAuthoritiesToStringList());

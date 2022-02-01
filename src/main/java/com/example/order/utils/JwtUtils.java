@@ -1,5 +1,7 @@
 package com.example.order.utils;
 
+import com.example.order.config.security.SecurityConstants;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -32,6 +34,22 @@ public class JwtUtils {
         name,
         authorities,
         new Date(new Date().getTime() + Duration.ofMinutes(60).toMillis()));
+  }
+
+  public static Claims parseJwtToken(String authorizationHeader, String jwtKey) {
+    validationAuthorizationHeader(authorizationHeader);
+    String passerHeader = extractToken(authorizationHeader);
+    return Jwts.parser().setSigningKey(jwtKey).parseClaimsJws(passerHeader).getBody();
+  }
+
+  private static void validationAuthorizationHeader(String header) {
+    if (null == header || "" == header || !header.startsWith(SecurityConstants.TOKEN_PREFIX)) {
+      throw new IllegalArgumentException();
+    }
+  }
+
+  private static String extractToken(String header) {
+    return header.substring(SecurityConstants.TOKEN_PREFIX.length());
   }
 
   private static String createToken(

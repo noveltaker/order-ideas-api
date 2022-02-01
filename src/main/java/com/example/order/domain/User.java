@@ -103,4 +103,16 @@ public class User {
     this.password = encodePassword;
     this.authorities = authorities;
   }
+
+  @Transient
+  public User jwtLogin(Long id, String email, String name, List<String> authorities) {
+    this.id = id;
+    this.email = email;
+    this.name = name;
+    this.authorities =
+        authorities.stream()
+            .map(authName -> Authority.builder().name(authName).build())
+            .collect(Collectors.toSet());
+    return this;
+  }
 }
