@@ -79,4 +79,9 @@ public class User {
     this.phoneNumber = phoneNumber;
     this.gender = gender;
   }
+
+  @Transient
+  public void encodePassword(String encodePassword){
+    this.password = encodePassword;
+  }
 }

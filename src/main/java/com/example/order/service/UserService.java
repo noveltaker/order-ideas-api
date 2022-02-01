@@ -9,6 +9,7 @@ import com.example.order.service.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,9 +19,12 @@ public class UserService {
 
   private final UserRepository userRepository;
 
+  private final PasswordEncoder passwordEncoder;
+
   @Transactional(rollbackFor = Exception.class)
   public User joinUser(UserDTO dto) {
     User entity = dto.toEntity();
+    entity.encodePassword(passwordEncoder.encode(dto.getPassword()));
     userRepository.save(entity);
     return entity;
   }
