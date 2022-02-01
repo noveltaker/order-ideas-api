@@ -2,7 +2,6 @@ package com.example.order.config.security;
 
 import org.springframework.security.core.userdetails.User;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,8 +12,7 @@ public class DomainUser extends User {
   private String name;
 
   public DomainUser(com.example.order.domain.User user) {
-    // todo : 권한 로직 추가
-    super(user.getEmail(), user.getPassword(), new ArrayList<>());
+    super(user.getEmail(), user.getPassword(), user.getGrantedAuthority());
     this.id = user.getId();
     this.name = user.getName();
   }

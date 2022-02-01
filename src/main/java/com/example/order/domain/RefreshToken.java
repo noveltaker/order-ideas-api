@@ -22,7 +22,7 @@ public class RefreshToken {
   @Column(unique = true, nullable = false)
   private Long userId;
 
-  @Column(nullable = false)
+  @Column(columnDefinition = "TEXT" , nullable = false)
   private String refreshToken;
 
   @Builder

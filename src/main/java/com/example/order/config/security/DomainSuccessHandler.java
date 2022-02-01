@@ -52,7 +52,7 @@ public class DomainSuccessHandler implements AuthenticationSuccessHandler {
         MessageDTO.Login.builder().accessToken(accessToken).refreshToken(refreshToken).build();
 
     refreshTokenRepository.save(
-        RefreshToken.builder().userId(id).refrehToken(refreshToken).build());
+        RefreshToken.builder().userId(id).refreshToken(refreshToken).build());
 
     response.reset();
 

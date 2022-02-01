@@ -2,6 +2,7 @@ package com.example.order.config.security;
 
 public class SecurityConstants {
 
-  public final static String TOKEN_PREFIX = "Bearer ";
+  public static final String TOKEN_PREFIX = "Bearer ";
 
+  public static final String ROLE_USER = "ROLE_USER";
 }

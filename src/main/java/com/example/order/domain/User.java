@@ -8,9 +8,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.BatchSize;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Table
 @Getter
@@ -51,6 +54,15 @@ public class User {
   @OrderBy(value = "orderDate desc ")
   private List<Order> orderList = new ArrayList<>();
 
+  @OneToMany(
+      fetch = FetchType.LAZY,
+      cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+  @JoinTable(
+      name = "authority_user",
+      joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+      inverseJoinColumns = @JoinColumn(name = "authrity_name", referencedColumnName = "name"))
+  private Set<Authority> authorities = new HashSet();
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -80,8 +92,15 @@ public class User {
     this.gender = gender;
   }
 
+  public List<GrantedAuthority> getGrantedAuthority() {
+    return this.authorities.stream()
+        .map(authority -> new SimpleGrantedAuthority(authority.getName()))
+        .collect(Collectors.toList());
+  }
+
   @Transient
-  public void encodePassword(String encodePassword){
+  public void setNewUser(String encodePassword, Set<Authority> authorities) {
     this.password = encodePassword;
+    this.authorities = authorities;
   }
 }
