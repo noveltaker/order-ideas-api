@@ -6,10 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.Hibernate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Table
@@ -47,5 +44,10 @@ public class RefreshToken {
   @Override
   public int hashCode() {
     return userId.intValue();
+  }
+
+  @Transient
+  public void issueToken(String refreshToken) {
+    this.refreshToken = refreshToken;
   }
 }
