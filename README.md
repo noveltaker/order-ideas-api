@@ -28,6 +28,9 @@ java -Dspring.profiles.active=prod -jar ./build/libs/order-0.0.1-SNAPSHOT.jar
 
 ### Create TABLE Query
 
+<img width="1202" alt="스크린샷 2022-02-01 오후 8 06 17" src="https://user-images.githubusercontent.com/53357210/151957631-d6770516-48f7-4725-bff8-d636578646ef.png">
+
+
 ```sql
 create table authority
 (
