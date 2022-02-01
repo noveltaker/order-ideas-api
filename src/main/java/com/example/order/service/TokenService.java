@@ -2,7 +2,6 @@ package com.example.order.service;
 
 import com.example.order.config.security.DomainUser;
 import com.example.order.config.security.GlobalException;
-import com.example.order.config.security.SecurityConstants;
 import com.example.order.domain.RefreshToken;
 import com.example.order.domain.User;
 import com.example.order.enums.ErrorType;
