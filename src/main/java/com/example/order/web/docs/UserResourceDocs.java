@@ -3,9 +3,9 @@ package com.example.order.web.docs;
 import com.example.order.domain.Order;
 import com.example.order.domain.User;
 import com.example.order.service.dto.IPageUser;
-import com.example.order.service.dto.IUser;
 import com.example.order.service.dto.PageDTO;
 import com.example.order.service.dto.UserDTO;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.data.domain.Page;
 
@@ -13,13 +13,25 @@ import java.util.List;
 
 public interface UserResourceDocs {
 
-  @Operation(summary = "회원가입 API")
+  @Operation(
+      summary = "회원가입 API",
+      description =
+          "ex = {\n"
+              + "  \"email\": \"test1@naver.com\",\n"
+              + "  \"gender\": \"M\",\n"
+              + "  \"name\": \"test가낟다\",\n"
+              + "  \"nickName\": \"test\",\n"
+              + "  \"password\": \"test1123Sx\",\n"
+              + "  \"phoneNumber\": \"01000000000\"\n"
+              + "}")
   User joinUser(UserDTO userDTO);
 
   @Operation(summary = "단일 회원 상세 정보 조회 기능 API")
-  IUser showUser(Long id);
+  @ApiImplicitParam(name = "id" , value = "유저아이디")
+  User showUser(Long id);
 
   @Operation(summary = "단일 회원의 주문 목록 조회 API (no paging)")
+  @ApiImplicitParam(name = "userId" , value = "유저아이디")
   List<Order> showOrderListByUser(Long userId);
 
   @Operation(

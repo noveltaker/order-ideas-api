@@ -134,9 +134,9 @@ class UserServiceTest {
 
       Mockito.lenient().when(userRepository.findById(1L)).thenReturn(Optional.of(user));
 
-      IUser iUser = userService.getUser(1L);
+      User user1 = userService.getUser(1L);
 
-      Assertions.assertEquals(iUser.getEmail(), userDTO.getEmail());
+      Assertions.assertEquals(user1.getEmail(), userDTO.getEmail());
     }
   }
 }

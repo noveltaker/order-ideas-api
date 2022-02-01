@@ -5,6 +5,7 @@ import com.example.order.config.security.JwtExceptionFilter;
 import com.example.order.config.security.JwtLoginFilter;
 import com.example.order.config.security.JwtValidFilter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,6 +24,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+  @Value("${jwt.key}")
+  private String jwtKey;
+
   private final AuthenticationSuccessHandler authenticationSuccessHandler;
 
   private final AuthenticationFailureHandler authenticationFailureHandler;
@@ -38,7 +42,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .disable()
         .addFilterBefore(new JwtExceptionFilter(), UsernamePasswordAuthenticationFilter.class)
         .addFilterBefore(jwtLoginFilter(), UsernamePasswordAuthenticationFilter.class)
-        .addFilterBefore(new JwtValidFilter(), UsernamePasswordAuthenticationFilter.class);
+        .addFilterBefore(new JwtValidFilter(jwtKey), UsernamePasswordAuthenticationFilter.class);
   }
 
   @Bean

@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.BatchSize;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -18,6 +20,7 @@ import java.util.Objects;
 @Table(name = "user_order")
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EntityListeners(value = {AuditingEntityListener.class})
 public class Order {
 
   @Id
@@ -27,9 +30,14 @@ public class Order {
   @Column(nullable = false)
   private String name;
 
+  @Basic
+  @CreatedDate
   @Column(nullable = false)
   @Temporal(TemporalType.TIMESTAMP)
-  @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone="Asia/Seoul")
+  @JsonFormat(
+      shape = JsonFormat.Shape.STRING,
+      pattern = "yyyy-MM-dd HH:mm:ss",
+      timezone = "Asia/Seoul")
   private Date orderDate;
 
   @JsonIgnore
@@ -42,7 +50,6 @@ public class Order {
   @PrePersist
   void insert() {
     number = RandomUtils.getRandomValue();
-    orderDate = new Date();
   }
 
   @Override

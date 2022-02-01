@@ -4,7 +4,6 @@ import com.example.order.domain.User;
 import com.example.order.utils.JwtUtils;
 import com.google.common.net.HttpHeaders;
 import io.jsonwebtoken.Claims;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -18,8 +17,11 @@ import java.util.List;
 
 public class JwtValidFilter extends OncePerRequestFilter {
 
-  @Value("${jwt.key}")
-  private String jwtKey;
+  private final String jwtKey;
+
+  public JwtValidFilter(String jwtKey) {
+    this.jwtKey = jwtKey;
+  }
 
   @Override
   protected void doFilterInternal(
@@ -30,9 +32,10 @@ public class JwtValidFilter extends OncePerRequestFilter {
 
     Claims claims = JwtUtils.parseJwtToken(authorization, jwtKey);
 
-    Long id = (Long) claims.get("id");
+    Long id = Long.valueOf((Integer) claims.get("id"));
 
     String email = (String) claims.get("email");
+
     String name = (String) claims.get("name");
 
     List<String> authorities = (List<String>) claims.get("authorities");

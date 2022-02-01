@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -35,8 +36,8 @@ public class UserService {
   }
 
   @Transactional(readOnly = true, rollbackFor = Exception.class)
-  public IUser getUser(Long id) {
-    return userRepository.findById(id, IUser.class).orElseThrow();
+  public User getUser(Long id) {
+    return userRepository.findById(id).orElse(User.builder().build());
   }
 
   @Transactional(readOnly = true, rollbackFor = Exception.class)

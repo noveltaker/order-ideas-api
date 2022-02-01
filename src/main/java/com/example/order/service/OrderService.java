@@ -16,6 +16,6 @@ public class OrderService {
 
   @Transactional(rollbackFor = Exception.class, readOnly = true)
   public List<Order> getOrderListByUser(Long userId) {
-    return orderRepository.findByUser_Id(userId);
+    return orderRepository.findByUser_IdOrderByOrderDateDesc(userId);
   }
 }

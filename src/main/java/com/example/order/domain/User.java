@@ -54,13 +54,12 @@ public class User {
   @OrderBy(value = "orderDate desc ")
   private List<Order> orderList = new ArrayList<>();
 
-  @OneToMany(
-      fetch = FetchType.LAZY,
-      cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+  @JsonIgnore
+  @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(
       name = "authority_user",
       joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-      inverseJoinColumns = @JoinColumn(name = "authrity_name", referencedColumnName = "name"))
+      inverseJoinColumns = @JoinColumn(name = "authority_name", referencedColumnName = "name"))
   private Set<Authority> authorities = new HashSet();
 
   @Override
@@ -92,6 +91,8 @@ public class User {
     this.gender = gender;
   }
 
+  @Transient
+  @JsonIgnore
   public List<GrantedAuthority> getGrantedAuthority() {
     return this.authorities.stream()
         .map(authority -> new SimpleGrantedAuthority(authority.getName()))
@@ -114,5 +115,10 @@ public class User {
             .map(authName -> Authority.builder().name(authName).build())
             .collect(Collectors.toSet());
     return this;
+  }
+
+  public String getPassword() {
+    if (null == this.password || "" == this.password) return "";
+    return password;
   }
 }

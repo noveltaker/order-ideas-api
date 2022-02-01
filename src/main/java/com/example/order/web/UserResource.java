@@ -5,7 +5,6 @@ import com.example.order.domain.User;
 import com.example.order.service.OrderService;
 import com.example.order.service.UserService;
 import com.example.order.service.dto.IPageUser;
-import com.example.order.service.dto.IUser;
 import com.example.order.service.dto.PageDTO;
 import com.example.order.service.dto.UserDTO;
 import com.example.order.web.docs.UserResourceDocs;
@@ -31,7 +30,7 @@ public class UserResource implements UserResourceDocs {
   }
 
   @GetMapping("/user/{id}")
-  public IUser showUser(@PathVariable Long id) {
+  public User showUser(@PathVariable Long id) {
     return userService.getUser(id);
   }
 

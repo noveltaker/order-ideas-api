@@ -1,6 +1,7 @@
 package com.example.order.service.dto;
 
 import com.example.order.enums.SearchType;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 @Setter
@@ -9,12 +10,16 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PageDTO {
 
+  @ApiModelProperty(name = "페이지 번호")
   private Integer page;
 
+  @ApiModelProperty(name = "보여줄 숫자")
   private Integer size;
 
+  @ApiModelProperty(name = "검색 값")
   private String searchValue;
 
+  @ApiModelProperty(name = "검색 타입")
   private SearchType searchType;
 
   public Integer getPage() {
