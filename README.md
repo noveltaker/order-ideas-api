@@ -1,5 +1,14 @@
 # order-api-server
 
+## Spec
+
+- spring boot 
+- jpa 
+- gradle 
+- java 11 
+- h2 
+
+
 ## Runbook
 
 #### 그레들 스크립트 - local
