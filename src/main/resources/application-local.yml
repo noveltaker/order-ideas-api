@@ -6,7 +6,7 @@ spring:
     database-platform: org.hibernate.dialect.H2Dialect
     defer-datasource-initialization: true
     hibernate:
-      ddl-auto: none
+      ddl-auto: create-drop
     dbcp2:
       test-while-idle: true
       validation-query: SELECT 1
