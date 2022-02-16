@@ -2,8 +2,11 @@ package com.example.order.mock;
 
 import com.example.order.domain.Order;
 import com.example.order.domain.User;
+import com.example.order.service.dto.IOrder;
 
-public class OrderMcok {
+import java.util.Date;
+
+public class OrderMock {
 
   private static User user = UserMock.createUser();
 
@@ -18,4 +21,5 @@ public class OrderMcok {
   public static Order createdOrderByEMorji() {
     return Order.builder().user(user).name(EMORJI_NAME).build();
   }
+
 }

@@ -2,6 +2,7 @@ package com.example.order.web.docs;
 
 import com.example.order.domain.Order;
 import com.example.order.domain.User;
+import com.example.order.service.dto.IOrder;
 import com.example.order.service.dto.IPageUser;
 import com.example.order.service.dto.PageDTO;
 import com.example.order.service.dto.UserDTO;
@@ -32,7 +33,7 @@ public interface UserResourceDocs {
 
   @Operation(summary = "단일 회원의 주문 목록 조회 API (no paging)")
   @ApiImplicitParam(name = "userId" , value = "유저아이디")
-  List<Order> showOrderListByUser(Long userId);
+  List<IOrder> showOrderListByUser(Long userId);
 
   @Operation(
       summary = "여러 회원 조회 목록 조회 API",

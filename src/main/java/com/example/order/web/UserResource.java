@@ -4,6 +4,7 @@ import com.example.order.domain.Order;
 import com.example.order.domain.User;
 import com.example.order.service.OrderService;
 import com.example.order.service.UserService;
+import com.example.order.service.dto.IOrder;
 import com.example.order.service.dto.IPageUser;
 import com.example.order.service.dto.PageDTO;
 import com.example.order.service.dto.UserDTO;
@@ -35,7 +36,7 @@ public class UserResource implements UserResourceDocs {
   }
 
   @GetMapping("/user/{userId}/orders")
-  public List<Order> showOrderListByUser(@PathVariable Long userId) {
+  public List<IOrder> showOrderListByUser(@PathVariable Long userId) {
     return orderService.getOrderListByUser(userId);
   }
 

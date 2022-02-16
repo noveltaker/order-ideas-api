@@ -17,9 +17,11 @@ public class UserMock {
 
   private static Gender gender = Gender.M;
 
-  public static User createUser() {
+  private static Long id = 1L;
 
+  public static User createUser() {
     return User.builder()
+        .id(id)
         .email(email)
         .password(password)
         .name(name)

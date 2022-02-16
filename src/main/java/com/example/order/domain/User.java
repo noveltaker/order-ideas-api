@@ -2,10 +2,7 @@ package com.example.order.domain;
 
 import com.example.order.enums.Gender;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.BatchSize;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,6 +15,8 @@ import java.util.stream.Collectors;
 @Table
 @Getter
 @Entity
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User {
 
@@ -73,22 +72,6 @@ public class User {
   @Override
   public int hashCode() {
     return id.intValue();
-  }
-
-  @Builder
-  public User(
-      String email,
-      String password,
-      String name,
-      String nickName,
-      String phoneNumber,
-      Gender gender) {
-    this.email = email;
-    this.password = password;
-    this.name = name;
-    this.nickName = nickName;
-    this.phoneNumber = phoneNumber;
-    this.gender = gender;
   }
 
   @Transient
