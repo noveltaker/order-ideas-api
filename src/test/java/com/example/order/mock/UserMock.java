@@ -1,10 +1,16 @@
 package com.example.order.mock;
 
+import com.example.order.config.security.SecurityConstants;
+import com.example.order.domain.Authority;
 import com.example.order.domain.User;
 import com.example.order.enums.Gender;
+import com.example.order.service.dto.UserDTO;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class UserMock {
 
@@ -31,6 +37,19 @@ public class UserMock {
         .nickName(nickName)
         .phoneNumber(phoneNumber)
         .gender(gender)
+        .authorities(getAuthorities())
+        .build();
+  }
+  public static User createUser(PasswordEncoder passwordEncoder) {
+    return User.builder()
+        .id(id)
+        .email(email)
+        .password(passwordEncoder.encode(password))
+        .name(name)
+        .nickName(nickName)
+        .phoneNumber(phoneNumber)
+        .gender(gender)
+        .authorities(getAuthorities())
         .build();
   }
 
@@ -52,5 +71,22 @@ public class UserMock {
 
   public static PageRequest createdPageRequest() {
     return PageRequest.of(0, 10);
+  }
+
+  public static Set<Authority> getAuthorities() {
+    Set<Authority> authorities = new HashSet<>();
+    authorities.add(Authority.builder().name(SecurityConstants.ROLE_USER).build());
+    return authorities;
+  }
+
+  public static UserDTO createUserDTO() {
+    User entity = createUser();
+    return new UserDTO(
+        entity.getEmail(),
+        entity.getPassword(),
+        entity.getName(),
+        entity.getNickName(),
+        entity.getPhoneNumber(),
+        entity.getGender());
   }
 }
