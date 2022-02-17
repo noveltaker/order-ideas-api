@@ -1,5 +1,6 @@
 package com.example.order.service;
 
+import com.example.order.domain.Order;
 import com.example.order.repository.OrderRepository;
 import com.example.order.service.dto.IOrder;
 import lombok.RequiredArgsConstructor;
