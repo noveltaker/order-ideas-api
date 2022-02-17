@@ -5,12 +5,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.BatchSize;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.*;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Table
 @Getter
@@ -24,7 +21,7 @@ public class User {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(nullable = false , unique = true)
+  @Column(nullable = false, unique = true)
   private String email;
 
   @Column(name = "password_hash", nullable = false)
@@ -74,34 +71,14 @@ public class User {
     return id.intValue();
   }
 
-  @Transient
-  @JsonIgnore
-  public List<GrantedAuthority> getGrantedAuthority() {
-    return this.authorities.stream()
-        .map(authority -> new SimpleGrantedAuthority(authority.getName()))
-        .collect(Collectors.toList());
+  public String getPassword() {
+    if (null == this.password || "" == this.password) return "";
+    return password;
   }
 
   @Transient
   public void setNewUser(String encodePassword, Set<Authority> authorities) {
     this.password = encodePassword;
     this.authorities = authorities;
-  }
-
-  @Transient
-  public User jwtLogin(Long id, String email, String name, List<String> authorities) {
-    this.id = id;
-    this.email = email;
-    this.name = name;
-    this.authorities =
-        authorities.stream()
-            .map(authName -> Authority.builder().name(authName).build())
-            .collect(Collectors.toSet());
-    return this;
-  }
-
-  public String getPassword() {
-    if (null == this.password || "" == this.password) return "";
-    return password;
   }
 }

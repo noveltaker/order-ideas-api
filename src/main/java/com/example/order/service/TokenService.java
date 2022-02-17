@@ -9,11 +9,15 @@ import com.example.order.repository.RefreshTokenRepository;
 import com.example.order.repository.UserRepository;
 import com.example.order.service.dto.MessageDTO;
 import com.example.order.service.dto.TokenDTO;
+import com.example.order.utils.AuthUtils;
 import com.example.order.utils.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -36,13 +40,15 @@ public class TokenService {
             .findById(userId)
             .orElseThrow(() -> new GlobalException(ErrorType.EMPTY_TOKEN_DOMAIN));
 
-    if (!tokenData.equals(dto.getRefreshToken())) {
+    if (!tokenData.getRefreshToken().equals(dto.getRefreshToken())) {
       throw new GlobalException(ErrorType.NOT_MATCH_TOKEN);
     }
 
     User foundUser = userRepository.findById(dto.getUserId()).orElseThrow();
 
-    DomainUser user = new DomainUser(foundUser);
+    List<GrantedAuthority> authorities = AuthUtils.getGrantedAuthority(foundUser.getAuthorities());
+
+    DomainUser user = new DomainUser(foundUser, authorities);
 
     Long id = user.getId();
 

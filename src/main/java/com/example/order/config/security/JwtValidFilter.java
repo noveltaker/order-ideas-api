@@ -1,10 +1,12 @@
 package com.example.order.config.security;
 
 import com.example.order.domain.User;
+import com.example.order.utils.AuthUtils;
 import com.example.order.utils.JwtUtils;
 import com.google.common.net.HttpHeaders;
 import io.jsonwebtoken.Claims;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -38,11 +40,12 @@ public class JwtValidFilter extends OncePerRequestFilter {
 
     String name = (String) claims.get("name");
 
-    List<String> authorities = (List<String>) claims.get("authorities");
+    List<GrantedAuthority> authorities =
+        AuthUtils.getGrantedAuthority((List<String>) claims.get("authorities"));
 
-    User loginUser = User.builder().build().jwtLogin(id, email, name, authorities);
+    User loginUser = User.builder().id(id).email(email).name(name).build();
 
-    DomainUser domainUser = new DomainUser(loginUser);
+    DomainUser domainUser = new DomainUser(loginUser, authorities);
 
     UsernamePasswordAuthenticationToken authorityUser =
         new UsernamePasswordAuthenticationToken(
@@ -57,6 +60,7 @@ public class JwtValidFilter extends OncePerRequestFilter {
   protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
     String uri = request.getRequestURI();
     String method = request.getMethod();
-    return !((uri.startsWith("/api/user") && !"POST".equals(method)) || uri.startsWith("/api/users"));
+    return !((uri.startsWith("/api/user") && !"POST".equals(method))
+        || uri.startsWith("/api/users"));
   }
 }

@@ -1,5 +1,6 @@
 package com.example.order.config.security;
 
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
 import java.util.List;
@@ -11,8 +12,8 @@ public class DomainUser extends User {
 
   private String name;
 
-  public DomainUser(com.example.order.domain.User user) {
-    super(user.getEmail(), user.getPassword(), user.getGrantedAuthority());
+  public DomainUser(com.example.order.domain.User user, List<GrantedAuthority> authorities) {
+    super(user.getEmail(), user.getPassword(), authorities);
     this.id = user.getId();
     this.name = user.getName();
   }
