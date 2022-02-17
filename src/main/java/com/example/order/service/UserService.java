@@ -23,36 +23,37 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class UserService {
 
-    private final UserRepository userRepository;
+  private final UserRepository userRepository;
 
-    private final PasswordEncoder passwordEncoder;
+  private final PasswordEncoder passwordEncoder;
 
-    @Transactional(rollbackFor = Exception.class)
-    public User joinUser(UserDTO dto) {
-        User entity = dto.toEntity();
-        entity.setNewUser(passwordEncoder.encode(dto.getPassword()), getAuthorities());
-        userRepository.save(entity);
-        return entity;
-    }
+  @Transactional(rollbackFor = Exception.class)
+  public User joinUser(UserDTO dto) {
+    User entity = dto.toEntity();
+    String encodePassword = passwordEncoder.encode(dto.getPassword());
+    entity.setNewUser(encodePassword, getAuthorities());
+    userRepository.save(entity);
+    return entity;
+  }
 
-    @Transactional(readOnly = true, rollbackFor = Exception.class)
-    public User getUser(Long id) {
-        return userRepository.findById(id).orElse(User.builder().build());
-    }
+  @Transactional(readOnly = true, rollbackFor = Exception.class)
+  public User getUser(Long id) {
+    return userRepository.findById(id).orElse(User.builder().build());
+  }
 
-    @Transactional(readOnly = true, rollbackFor = Exception.class)
-    public Page<IPageUser> getUserList(PageDTO dto) {
+  @Transactional(readOnly = true, rollbackFor = Exception.class)
+  public Page<IPageUser> getUserList(PageDTO dto) {
 
-        UserPageFactory userPageFactory = new UserPageFactoryImpl(userRepository, dto);
+    UserPageFactory userPageFactory = new UserPageFactoryImpl(userRepository, dto);
 
-        UserPage userPage = userPageFactory.makeUserPage();
+    UserPage userPage = userPageFactory.makeUserPage();
 
-        return userPage.getPageList();
-    }
+    return userPage.getPageList();
+  }
 
-    private Set<Authority> getAuthorities() {
-        Set<Authority> authorities = new HashSet<>();
-        authorities.add(Authority.builder().name(SecurityConstants.ROLE_USER).build());
-        return authorities;
-    }
+  private Set<Authority> getAuthorities() {
+    Set<Authority> authorities = new HashSet<>();
+    authorities.add(Authority.builder().name(SecurityConstants.ROLE_USER).build());
+    return authorities;
+  }
 }
