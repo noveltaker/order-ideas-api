@@ -46,7 +46,6 @@ public class Order {
   @JoinColumn(name = "user_id")
   private User user;
 
-  @PostLoad
   @PrePersist
   void insert() {
     number = RandomUtils.getRandomValue();

@@ -3,6 +3,8 @@ package com.example.order.mock;
 import com.example.order.domain.User;
 import com.example.order.enums.Gender;
 
+import java.util.List;
+
 public class UserMock {
 
   private static String email = "test@naver.com";
@@ -29,5 +31,21 @@ public class UserMock {
         .phoneNumber(phoneNumber)
         .gender(gender)
         .build();
+  }
+
+  public static List<User> createUsers() {
+
+    User otherUser =
+        User.builder()
+            .id(2L)
+            .email(email)
+            .password(password)
+            .name(name)
+            .nickName(nickName)
+            .phoneNumber(phoneNumber)
+            .gender(gender)
+            .build();
+
+    return List.of(createUser(), otherUser);
   }
 }
