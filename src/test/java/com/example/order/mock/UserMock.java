@@ -2,6 +2,7 @@ package com.example.order.mock;
 
 import com.example.order.domain.User;
 import com.example.order.enums.Gender;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 
@@ -47,5 +48,9 @@ public class UserMock {
             .build();
 
     return List.of(createUser(), otherUser);
+  }
+
+  public static PageRequest createdPageRequest() {
+    return PageRequest.of(0, 10);
   }
 }

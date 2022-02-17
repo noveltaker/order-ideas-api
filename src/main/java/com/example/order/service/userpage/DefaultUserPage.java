@@ -2,7 +2,6 @@ package com.example.order.service.userpage;
 
 import com.example.order.repository.UserRepository;
 import com.example.order.service.dto.IPageUser;
-import com.example.order.service.dto.PageDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
