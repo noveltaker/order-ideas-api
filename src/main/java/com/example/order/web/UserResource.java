@@ -4,10 +4,7 @@ import com.example.order.domain.Order;
 import com.example.order.domain.User;
 import com.example.order.service.OrderService;
 import com.example.order.service.UserService;
-import com.example.order.service.dto.IOrder;
-import com.example.order.service.dto.IPageUser;
-import com.example.order.service.dto.PageDTO;
-import com.example.order.service.dto.UserDTO;
+import com.example.order.service.dto.*;
 import com.example.order.web.docs.UserResourceDocs;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -31,8 +28,8 @@ public class UserResource implements UserResourceDocs {
   }
 
   @GetMapping("/user/{id}")
-  public User showUser(@PathVariable Long id) {
-    return userService.getUser(id);
+  public IUser showUser(@PathVariable Long id) {
+    return userService.getUser(id).orElseThrow(() -> new NullPointerException());
   }
 
   @GetMapping("/user/{userId}/orders")

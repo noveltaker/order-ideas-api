@@ -2,10 +2,7 @@ package com.example.order.web.docs;
 
 import com.example.order.domain.Order;
 import com.example.order.domain.User;
-import com.example.order.service.dto.IOrder;
-import com.example.order.service.dto.IPageUser;
-import com.example.order.service.dto.PageDTO;
-import com.example.order.service.dto.UserDTO;
+import com.example.order.service.dto.*;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.data.domain.Page;
@@ -28,11 +25,11 @@ public interface UserResourceDocs {
   User joinUser(UserDTO userDTO);
 
   @Operation(summary = "단일 회원 상세 정보 조회 기능 API")
-  @ApiImplicitParam(name = "id" , value = "유저아이디")
-  User showUser(Long id);
+  @ApiImplicitParam(name = "id", value = "유저아이디")
+  IUser showUser(Long id);
 
   @Operation(summary = "단일 회원의 주문 목록 조회 API (no paging)")
-  @ApiImplicitParam(name = "userId" , value = "유저아이디")
+  @ApiImplicitParam(name = "userId", value = "유저아이디")
   List<IOrder> showOrderListByUser(Long userId);
 
   @Operation(

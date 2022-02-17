@@ -5,6 +5,7 @@ import com.example.order.domain.Authority;
 import com.example.order.domain.User;
 import com.example.order.repository.UserRepository;
 import com.example.order.service.dto.IPageUser;
+import com.example.order.service.dto.IUser;
 import com.example.order.service.dto.PageDTO;
 import com.example.order.service.dto.UserDTO;
 import com.example.order.service.userpage.UserPage;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -37,8 +39,8 @@ public class UserService {
   }
 
   @Transactional(readOnly = true, rollbackFor = Exception.class)
-  public User getUser(Long id) {
-    return userRepository.findById(id).orElse(User.builder().build());
+  public Optional<IUser> getUser(Long id) {
+    return userRepository.findById(id, IUser.class);
   }
 
   @Transactional(readOnly = true, rollbackFor = Exception.class)
