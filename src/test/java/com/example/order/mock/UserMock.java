@@ -4,12 +4,14 @@ import com.example.order.config.security.SecurityConstants;
 import com.example.order.domain.Authority;
 import com.example.order.domain.User;
 import com.example.order.enums.Gender;
+import com.example.order.service.dto.IUser;
 import com.example.order.service.dto.UserDTO;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public class UserMock {
@@ -40,6 +42,7 @@ public class UserMock {
         .authorities(getAuthorities())
         .build();
   }
+
   public static User createUser(PasswordEncoder passwordEncoder) {
     return User.builder()
         .id(id)
@@ -88,5 +91,45 @@ public class UserMock {
         entity.getNickName(),
         entity.getPhoneNumber(),
         entity.getGender());
+  }
+
+  public static Optional<IUser> createIUser() {
+    return Optional.of(
+        new IUser() {
+          @Override
+          public Long getId() {
+            return id;
+          }
+
+          @Override
+          public String getEmail() {
+            return email;
+          }
+
+          @Override
+          public String getPassword() {
+            return password;
+          }
+
+          @Override
+          public String getName() {
+            return name;
+          }
+
+          @Override
+          public String getNickName() {
+            return nickName;
+          }
+
+          @Override
+          public String getPhoneNumber() {
+            return phoneNumber;
+          }
+
+          @Override
+          public Gender getGender() {
+            return gender;
+          }
+        });
   }
 }

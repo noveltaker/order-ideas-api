@@ -65,6 +65,28 @@ class UserRepositoryTest {
   }
 
   @Test
+  void findById() throws Exception {
+
+    // given
+    User entity = userRepository.save(UserMock.createUser());
+
+    Optional<User> user = userRepository.findById(1L);
+
+    Assertions.assertTrue(user.isPresent());
+
+    User data = user.get();
+
+    // then
+    Assertions.assertNotNull(entity.getId());
+    Assertions.assertEquals(data.getEmail(), entity.getEmail());
+    Assertions.assertEquals(data.getPassword(), entity.getPassword());
+    Assertions.assertEquals(data.getName(), entity.getName());
+    Assertions.assertEquals(data.getNickName(), entity.getNickName());
+    Assertions.assertEquals(data.getPhoneNumber(), entity.getPhoneNumber());
+    Assertions.assertEquals(data.getGender(), entity.getGender());
+  }
+
+  @Test
   @DisplayName("기본 조회 로직")
   void findAllProjectedBy() throws Exception {
 
