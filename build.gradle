@@ -46,6 +46,9 @@ dependencies {
     if (project.hasProperty("prod")) {
         implementation 'mysql:mysql-connector-java'
     }
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5:2.13.1'
+    implementation 'org.zalando:problem-violations:0.25.2'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-joda:2.13.1'
 }
 
 tasks.named('test') {

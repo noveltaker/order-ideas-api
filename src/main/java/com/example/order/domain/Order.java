@@ -1,7 +1,6 @@
 package com.example.order.domain;
 
 import com.example.order.utils.RandomUtils;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -34,10 +33,6 @@ public class Order {
   @CreatedDate
   @Column(nullable = false)
   @Temporal(TemporalType.TIMESTAMP)
-  @JsonFormat(
-      shape = JsonFormat.Shape.STRING,
-      pattern = "yyyy-MM-dd HH:mm:ss",
-      timezone = "Asia/Seoul")
   private Date orderDate;
 
   @JsonIgnore
